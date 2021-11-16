@@ -1,6 +1,5 @@
 package ru.job4j.grabber;
 
-import javax.swing.text.Element;
 import java.util.List;
 
 public interface Parse {
