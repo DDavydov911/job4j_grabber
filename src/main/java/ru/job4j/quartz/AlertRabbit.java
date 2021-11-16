@@ -18,7 +18,8 @@ public class AlertRabbit {
     private static Properties config;
 
     private static void init() {
-        try (InputStream in = AlertRabbit.class.getClassLoader().getResourceAsStream("rabbit.properties")) {
+        try (InputStream in = AlertRabbit.class.getClassLoader()
+                .getResourceAsStream("rabbit.properties")) {
             config = new Properties();
             config.load(in);
             Class.forName("org.postgresql.Driver");
@@ -74,10 +75,6 @@ public class AlertRabbit {
                 e.printStackTrace();
             }
 
-        }
-
-        public Rabbit() {
-            System.out.println(hashCode());
         }
     }
 }
