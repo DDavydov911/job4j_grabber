@@ -10,6 +10,7 @@ import static org.quartz.TriggerBuilder.*;
 import static org.quartz.SimpleScheduleBuilder.*;
 
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.Properties;
 
 public class AlertRabbit {
@@ -55,13 +56,24 @@ public class AlertRabbit {
     }
 
     public static class Rabbit implements Job {
-        @Override
-        public void execute(JobExecutionContext context) throws JobExecutionException {
+/*          Второй вариант добавления таймстемп в таблицу
             try (Statement statement = connection.createStatement()) {
                 statement.execute("INSERT INTO rabbit(created_date) VALUES (current_timestamp)");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+*/
+        @Override
+        public void execute(JobExecutionContext context) throws JobExecutionException {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO rabbit(created_date) VALUES (?)"
+            )) {
+                preparedStatement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
 
         public Rabbit() {
