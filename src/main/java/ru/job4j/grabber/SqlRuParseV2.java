@@ -1,15 +1,21 @@
-package ru.job4j.html;
+package ru.job4j.grabber;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import ru.job4j.Post;
-import ru.job4j.grabber.utils.SqlRuDateTimeParser;
-
 import java.time.LocalDateTime;
 
-public class SqlRuParse {
+public class SqlRuParseV2 {
+
+    private static String getDescription(Elements innerRow) {
+        StringBuilder description = new StringBuilder();
+        for (Element el : innerRow) {
+            description.append(el.text());
+        }
+        return description.toString();
+    }
+
     public static void main(String[] args) throws Exception {
         for (int i = 1; i < 2; i++) {
             SqlRuDateTimeParser parser = new SqlRuDateTimeParser();
@@ -22,11 +28,8 @@ public class SqlRuParse {
                 LocalDateTime ldt = parser.parse(td.parent().child(5).text());
                 Document innerDoc = Jsoup.connect(href.attr("href")).get();
                 Elements innerRow = innerDoc.select(".msgBody").next();
-                StringBuilder description = new StringBuilder();
-                for (Element el : innerRow) {
-                    description.append(el.text());
-                }
-                Post post = new Post(title, link, description.toString(), ldt);
+                String description = getDescription(innerRow);
+                Post post = new Post(title, link, description, ldt);
                 System.out.println(post);
             }
         }
