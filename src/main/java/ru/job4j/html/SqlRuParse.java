@@ -17,6 +17,5 @@ public class SqlRuParse {
                 System.out.println(td.parent().child(5).text());
             }
         }
-
     }
 }
