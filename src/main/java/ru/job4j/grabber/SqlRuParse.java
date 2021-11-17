@@ -4,10 +4,21 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import ru.job4j.grabber.utils.DateTimeParser;
 import ru.job4j.grabber.utils.SqlRuDateTimeParser;
-import java.time.LocalDateTime;
 
-public class SqlRuParse {
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+public class SqlRuParse implements Parse {
+
+    private final DateTimeParser dateTimeParser;
+
+    public SqlRuParse(DateTimeParser dateTimeParser) {
+        this.dateTimeParser = dateTimeParser;
+    }
 
     private static String getDescription(Elements innerRow) {
         StringBuilder description = new StringBuilder();
@@ -17,22 +28,46 @@ public class SqlRuParse {
         return description.toString();
     }
 
-    public static void main(String[] args) throws Exception {
-        for (int i = 1; i < 2; i++) {
-            SqlRuDateTimeParser parser = new SqlRuDateTimeParser();
-            Document doc = Jsoup.connect("https://www.sql.ru/forum/job-offers/" + i).get();
-            Elements row = doc.select(".postslisttopic");
-            for (Element td : row) {
-                Element href = td.child(0);
-                String link = href.attr("href");
-                String title = href.text();
-                LocalDateTime ldt = parser.parse(td.parent().child(5).text());
-                Document innerDoc = Jsoup.connect(href.attr("href")).get();
-                Elements innerRow = innerDoc.select(".msgBody").next();
-                String description = getDescription(innerRow);
-                Post post = new Post(title, link, description, ldt);
-                System.out.println(post);
+    @Override
+    public List<Post> list(String link) {
+        List<Post> result = new ArrayList<>();
+        for (int i = 1; i < 5; i++) {
+            Document doc;
+            try {
+                doc = Jsoup.connect(link + "/" + i).get();
+                Elements row = doc.select(".postslisttopic");
+                for (Element td : row) {
+                    result.add(detail(td));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        }
+        return result;
+    }
+
+    @Override
+    public Post detail(Element td) {
+        Element href = td.child(0);
+        String line = href.attr("href");
+        String title = href.text();
+        LocalDateTime ldt = dateTimeParser.parse(td.parent().child(5).text());
+        Document innerDoc = null;
+        try {
+            innerDoc = Jsoup.connect(href.attr("href")).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Elements innerRow = innerDoc.select(".msgBody").next();
+        String description = getDescription(innerRow);
+        return new Post(title, line, description, ldt);
+    }
+
+    public static void main(String[] args) {
+        SqlRuParse parser = new SqlRuParse(new SqlRuDateTimeParser());
+        List<Post> posts = parser.list("https://www.sql.ru/forum/job-offers");
+        for (Post post : posts) {
+            System.out.println(post);
         }
     }
 }
