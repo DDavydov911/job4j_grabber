@@ -1,7 +1,6 @@
 package ru.job4j.grabber;
 
 import ru.job4j.grabber.utils.DateTimeParser;
-import ru.job4j.grabber.utils.SqlRuDateTimeParser;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -50,11 +49,11 @@ public class Tester implements DateTimeParser {
         }
         System.out.println(Arrays.toString(arr));
         System.out.println();
-//        Tester parser = new Tester();
-//        System.out.println(parser.parse(str1));
-//        System.out.println(parser.parse(str2));
-//        System.out.println(parser.parse(str3));
-//        System.out.println(parser.parse(str4));
-//        System.out.println(parser.parse(str5));
+        Tester parser = new Tester();
+        System.out.println(parser.parse(str1));
+        System.out.println(parser.parse(str2));
+        System.out.println(parser.parse(str3));
+        System.out.println(parser.parse(str4));
+        System.out.println(parser.parse(str5));
     }
 }
