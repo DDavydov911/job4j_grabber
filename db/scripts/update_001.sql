@@ -1,4 +1,4 @@
-create table if not exists post (
+create table if not exists des (
     id serial primary key,
     name varchar(255),
     text text,
