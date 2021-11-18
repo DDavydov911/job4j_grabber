@@ -1,5 +1,7 @@
 package ru.job4j.grabber.utils;
 
+import ru.job4j.grabber.Tester;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -16,20 +18,20 @@ public class SqlRuDateTimeParser implements DateTimeParser {
 
     @Override
     public LocalDateTime parse(String parse) {
-        String[] arr = parse.split(" |, |:");
+        String[] arr = parse.split("\s+|,\s+|:");
         LocalDate ld;
         LocalTime lt;
-        if (arr.length == 3) {
-            lt = LocalTime.parse(arr[1] + arr[2], DateTimeFormatter.ofPattern("HHmm"));
-            if (arr[0].equals("сегодня")) {
-                ld = LocalDate.now();
-            } else {
-                ld = LocalDate.now().minusDays(1);
-            }
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmm");
+        if (arr[0].equals("сегодня")) {
+            ld = LocalDate.now();
+            lt = LocalTime.parse(arr[1] + arr[2], dtf);
+        } else if (arr[0].equals("вчера")) {
+            ld = LocalDate.now().minusDays(1);
+            lt = LocalTime.parse(arr[1] + arr[2], dtf);
         } else {
             ld = LocalDate.parse(arr[0] + MONTHS.get(arr[1]) + arr[2],
                     DateTimeFormatter.ofPattern("dMMyy"));
-            lt = LocalTime.parse(arr[3] + arr[4], DateTimeFormatter.ofPattern("HHmm"));
+            lt = LocalTime.parse(arr[3] + arr[4], dtf);
         }
         return LocalDateTime.of(ld, lt);
     }

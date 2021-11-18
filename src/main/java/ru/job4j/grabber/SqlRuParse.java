@@ -20,24 +20,17 @@ public class SqlRuParse implements Parse {
         this.dateTimeParser = dateTimeParser;
     }
 
-    private static String getDescription(Elements innerRow) {
-        StringBuilder description = new StringBuilder();
-        for (Element el : innerRow) {
-            description.append(el.text());
-        }
-        return description.toString();
-    }
-
     @Override
     public List<Post> list(String link) {
         List<Post> result = new ArrayList<>();
-        for (int i = 1; i < 5; i++) {
-            Document doc;
+        for (int i = 1; i < 6; i++) {
             try {
-                doc = Jsoup.connect(link + "/" + i).get();
+                Document doc = Jsoup.connect(link + "/" + i).get();
                 Elements row = doc.select(".postslisttopic");
                 for (Element td : row) {
-                    result.add(detail(td));
+                    Element href = td.child(0);
+                    String ln = href.attr("href");
+                    result.add(detail(ln));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -47,20 +40,19 @@ public class SqlRuParse implements Parse {
     }
 
     @Override
-    public Post detail(Element td) {
-        Element href = td.child(0);
-        String line = href.attr("href");
-        String title = href.text();
-        LocalDateTime ldt = dateTimeParser.parse(td.parent().child(5).text());
-        Document innerDoc = null;
+    public Post detail(String link) {
+        String title = null;
+        String description = null;
+        LocalDateTime ldt = null;
         try {
-            innerDoc = Jsoup.connect(href.attr("href")).get();
+            Document innerDoc = Jsoup.connect(link).get();
+            title = innerDoc.select(".messageHeader").get(0).text();
+            ldt = dateTimeParser.parse(innerDoc.select(".msgFooter").get(0).text());
+            description = innerDoc.select(".msgBody").get(1).text();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Elements innerRow = innerDoc.select(".msgBody").next();
-        String description = getDescription(innerRow);
-        return new Post(title, line, description, ldt);
+        return new Post(title, link, description, ldt);
     }
 
     public static void main(String[] args) {
