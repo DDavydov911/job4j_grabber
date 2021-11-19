@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SqlRuParse implements Parse {
 
@@ -30,7 +31,11 @@ public class SqlRuParse implements Parse {
                 for (Element td : row) {
                     Element href = td.child(0);
                     String ln = href.attr("href");
-                    result.add(detail(ln));
+                    Post post = detail(ln);
+                    String title = post.getTitle().toLowerCase();
+                    if (title.contains("java") && !title.contains("javascript")) {
+                        result.add(post);
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
