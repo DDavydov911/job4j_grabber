@@ -8,6 +8,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -101,7 +102,5 @@ public class Grabber implements Grab {
         Store store = grab.store();
         grab.init(new SqlRuParse(new SqlRuDateTimeParser()), store, scheduler);
         grab.web(store);
-        Thread.sleep(130);
-        scheduler.shutdown();
     }
 }
