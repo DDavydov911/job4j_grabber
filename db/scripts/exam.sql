@@ -28,6 +28,7 @@ from person p join company c
 on c.id = p.company_id
 where company_id != 5;
 
+-- Мой метод решения
 select tab2.name, tab2.employes
 from (
 	select c.name, count(*) as employes
@@ -43,4 +44,14 @@ select max(tab3.employes) from (
 	group by c.name)
 	as tab3
 );
+
+-- Метод от ментора
+SELECT c.name, count(*) as employes
+from person p JOIN company c
+ON c.id = p.company_id
+GROUP BY c.name
+having count(*) = (SELECT count(*)
+from person p GROUP BY p.company_id
+ORDER BY count(*) DESC
+LIMIT 1);
 
