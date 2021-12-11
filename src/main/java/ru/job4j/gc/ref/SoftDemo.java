@@ -21,8 +21,8 @@ public class SoftDemo {
     private static void example2() {
         List<SoftReference<Object>> objects = new ArrayList<>();
         for (int i = 0; i < 100_000_000; i++) {
-            objects.add(new SoftReference<Object>(new Object() {
-                String value = String.valueOf(System.currentTimeMillis());
+            objects.add(new SoftReference<>(new Object() {
+                private String value = String.valueOf(System.currentTimeMillis());
 
                 @Override
                 protected void finalize() throws Throwable {
