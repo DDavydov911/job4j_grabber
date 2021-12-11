@@ -24,11 +24,11 @@ public class GCDemo {
          *  }
          *  System.gc();
          */
-        for (int i = 0; i < 10; i++) {
-            new Person(i, "N" + i);
-        }
-        for (int i = 0; i < 3000; i++) {
-            new User(i, "Name" + i);
+//        for (int i = 0; i < 10; i++) {
+//            new Person(i, "N" + i);
+//        }
+        for (int i = 0; i < 7300; i++) {
+            new User();
         }
         info();
     }
