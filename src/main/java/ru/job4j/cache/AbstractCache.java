@@ -15,11 +15,12 @@ public abstract class AbstractCache<K, V> {
 
     public V get(K key) {
         V value;
-        if (cache.get(key) == null) {
+        Object o = cache.getOrDefault(key, null);
+        if (o == null) {
             value = load(key);
             this.put(key, value);
         } else {
-            value = cache.get(key).get();
+            value = (V) o; /* cache.get(key).get() */
         }
         return value;
     }
