@@ -9,8 +9,8 @@ import static org.junit.Assert.*;
 
 public class MaxMinTest {
 
-    List<Integer> list = List.of(7, 2, 1, 8, 2);
-    MaxMin maxMin = new MaxMin();
+    private List<Integer> list = List.of(7, 2, 1, 8, 2);
+    private MaxMin maxMin = new MaxMin();
 
     @Test
     public void whenMaxIs8() {
