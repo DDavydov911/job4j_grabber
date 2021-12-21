@@ -11,6 +11,7 @@ import java.util.List;
 
 public class CinemaTest {
 
+
     @Test
     public void buy() {
         Account account = new AccountCinema();
