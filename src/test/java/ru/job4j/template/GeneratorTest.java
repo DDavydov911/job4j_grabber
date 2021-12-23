@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 public class GeneratorTest {
 
     @Ignore
+    @Test
     public void whenProduceRightStringFromTemplate() {
         Generator generator = new TemplateGenerator();
         String template = "I am a ${name}, Who are ${subject}?";
@@ -20,6 +21,7 @@ public class GeneratorTest {
         assertThat(generator.produce(template, args), is(example));
     }
 
+    @Ignore
     @Test(expected = NoSuchElementException.class)
     public void whenTemplateHasWrongKeys() {
         Generator generator = new TemplateGenerator();
@@ -29,12 +31,12 @@ public class GeneratorTest {
         throw new NoSuchElementException();
     }
 
+    @Ignore
     @Test(expected = NumberFormatException.class)
     public void whenTemplateHasWrongKeysNumbers() {
         Generator generator = new TemplateGenerator();
         String template = "I am a ${name}, Who are ${subject}, mr.${mr}?";
         Map<String, String> args = Map.of("Ivan", "you");
         generator.produce(template, args);
-        throw new NumberFormatException();
     }
 }
