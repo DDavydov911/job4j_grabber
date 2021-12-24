@@ -22,17 +22,16 @@ public class GeneratorTest {
     }
 
     @Ignore
-    @Test(expected = NoSuchElementException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void whenTemplateHasWrongKeys() {
         Generator generator = new TemplateGenerator();
         String template = "I am a ${name}, Who are ${guy}?";
         Map<String, String> args = Map.of("Ivan", "you");
         generator.produce(template, args);
-        throw new NoSuchElementException();
     }
 
     @Ignore
-    @Test(expected = NumberFormatException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void whenTemplateHasWrongKeysNumbers() {
         Generator generator = new TemplateGenerator();
         String template = "I am a ${name}, Who are ${subject}, mr.${mr}?";
