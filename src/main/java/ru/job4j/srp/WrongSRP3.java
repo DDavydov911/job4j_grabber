@@ -1,4 +1,4 @@
-package ru.job4j.ru.ood.srp;
+package ru.job4j.srp;
 
 import java.util.List;
 /*
@@ -8,11 +8,11 @@ import java.util.List;
 public class WrongSRP3<E> {
     private List<E> list;
 
-    public boolean add(){
+    public boolean add() {
         return false;
     }
 
-    public Object get(){
+    public Object get() {
         return null;
     }
 
@@ -25,5 +25,4 @@ public class WrongSRP3<E> {
             System.out.println(e);
         }
     }
-
 }
