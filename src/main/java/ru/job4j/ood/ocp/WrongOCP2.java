@@ -5,25 +5,25 @@ public class WrongOCP2 {
     public class Car {
         private int seats;
         private String engineType;
-        private String brake;
         private int power;
         private int maxSpeed;
+        private double fuel;
+
+        public void getFuel(double value) {
+            fuel += value;
+        }
     }
 
     public class GasCar extends Car {
         private int seats;
         private String engineType = "Gas";
-        private String brake;
         private int power;
         private int maxSpeed;
-    }
+        private double fuel;
 
-    public class GasCarWithABS extends Car {
-        private int seats;
-        private String engineType = "Gas";
-        private String brake = "ABC brake";
-        private int power;
-        private int maxSpeed;
+        public void getFuel(double value) {
+            fuel += value;
+        }
     }
 
     public class ECar extends Car {
@@ -32,13 +32,10 @@ public class WrongOCP2 {
         private String brake;
         private int power;
         private int maxSpeed;
-    }
+        private  double charge;
 
-    public class EcarWithABS extends Car {
-        private int seats;
-        private String engineType = "Electric";
-        private String brake = "ABC brake";
-        private int power;
-        private int maxSpeed;
+        public void getCharge(double value) {
+            charge += value;
+        }
     }
 }
