@@ -4,7 +4,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.function.Predicate;
@@ -22,7 +21,7 @@ public class ReportEngineToXML implements Report {
         JAXBContext context;
         Marshaller marshaller = null;
         try {
-            context = JAXBContext.newInstance(Employee.class);
+            context = JAXBContext.newInstance(Employees.class);
             marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         } catch (JAXBException e) {
@@ -30,9 +29,7 @@ public class ReportEngineToXML implements Report {
         }
         String result = null;
         try (StringWriter writer = new StringWriter()) {
-            for (Employee employee : list) {
-                marshaller.marshal(employee, writer);
-            }
+            marshaller.marshal(new Employees(list), writer);
             result = writer.getBuffer().toString();
         } catch (Exception e) {
             e.printStackTrace();
