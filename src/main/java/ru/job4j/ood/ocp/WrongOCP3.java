@@ -1,7 +1,10 @@
 package ru.job4j.ood.ocp;
 
 public class WrongOCP3 {
-
+    /*
+        Метод findFeed имеет разную реализацию, хотя он не абстрактный.
+        Это модификация.
+     */
     public class Animal {
         private String animalClass;
         private String name;
