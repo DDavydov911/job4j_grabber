@@ -46,7 +46,8 @@ public class WrongLSP {
 
     public class Bus extends Transport {
 
-        public boolean mayToUse(Transport transport) {
+        @Override
+        public boolean mayToUse() {
             return getTicketPrice() < 100;
         }
     }
