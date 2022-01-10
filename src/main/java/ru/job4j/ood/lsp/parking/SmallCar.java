@@ -1,9 +1,9 @@
 package ru.job4j.ood.lsp.parking;
 
 public class SmallCar implements Car {
-    private int size;
+    private final int size;
 
-    private Parking parking;
+    private Parking parking = null;
 
     public SmallCar(int size) {
         if (size != 1) {
@@ -15,16 +15,5 @@ public class SmallCar implements Car {
     @Override
     public int getSize() {
         return size;
-    }
-
-    @Override
-    public void takeParking(Parking parking) {
-        this.parking = parking;
-        parking.setCar(this);
-    }
-
-    @Override
-    public void freeParking() {
-
     }
 }

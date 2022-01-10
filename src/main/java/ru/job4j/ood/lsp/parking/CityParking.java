@@ -1,47 +1,60 @@
 package ru.job4j.ood.lsp.parking;
 
-public class CityParking implements Parking {
-    private int smallCarParkingPlaces;
-    private int bigCarParkingPlaces;
+import java.util.ArrayList;
 
-    public CityParking(int smallCarParkingPlaces, int bigCarParkingPlaces) {
-        this.smallCarParkingPlaces = smallCarParkingPlaces;
-        this.bigCarParkingPlaces = bigCarParkingPlaces;
+public class CityParking implements Parking {
+    private int numberFreeSmallParkingPlaces;
+    private int numberFreeBigParkingPlaces;
+    private final ArrayList<Car> carsOnSmallParkingPlaces = new ArrayList<>();
+    private final ArrayList<Car> carsOnBigParkingPlaces = new ArrayList<>();
+
+    public CityParking(int numberFreeSmallParkingPlaces, int numberFreeBigParkingPlaces) {
+        this.numberFreeSmallParkingPlaces = numberFreeSmallParkingPlaces;
+        this.numberFreeBigParkingPlaces = numberFreeBigParkingPlaces;
     }
 
     @Override
-    public void setCar(Car car) {
-        if (car.getSize() == 1 && checkFreePlaces(car)) {
-            smallCarParkingPlaces -= 1;
-            System.out.println("Машина запаркована");
-        } else if (checkFreePlaces(car)) {
-            bigCarParkingPlaces -= car.getSize();
-            System.out.println("Машина запаркована");
+    public boolean placeCarOnParking(Car car) {
+        if (car.getSize() == 1) {
+            return placeCarOnSmallParkingPlaces(car);
         } else {
-            System.out.println("Парковка занята");
+            return placeBigCarOnParking(car);
         }
     }
 
     @Override
-    public boolean checkFreePlaces(Car car) {
-         return car.getSize() <= 1 && 1 <= smallCarParkingPlaces
-                 || car.getSize() > 1 && (car.getSize() <= bigCarParkingPlaces
-                    || car.getSize() <= smallCarParkingPlaces);
+    public boolean contains(Car car) {
+        return false;
     }
 
-    public static void main(String[] args) {
-        SmallCar sc1 = new SmallCar(1);
-        SmallCar sc2 = new SmallCar(1);
-        SmallCar sc3 = new SmallCar(1);
-        SmallCar sc4 = new SmallCar(1);
-        BigCar bc1 = new BigCar(4);
-        BigCar bc2 = new BigCar(2);
-        CityParking cityParking = new CityParking(3, 6);
-        sc1.takeParking(cityParking);
-        sc2.takeParking(cityParking);
-        sc3.takeParking(cityParking);
-        sc4.takeParking(cityParking);
-        bc1.takeParking(cityParking);
-        bc2.takeParking(cityParking);
+    private boolean placeCarOnSmallParkingPlaces(Car car) {
+        int carSize = car.getSize();
+        if (numberFreeSmallParkingPlaces >= carSize) {
+            numberFreeSmallParkingPlaces -= carSize;
+            carsOnSmallParkingPlaces.add(car);
+            System.out.printf("Машина запаркована на легковой площадке,"
+                    + " осталось свободными %d машиномест на  легковой площадке и "
+                            + "%d машиномест на грузовой%n",
+                    numberFreeSmallParkingPlaces, numberFreeBigParkingPlaces);
+            return true;
+        } else {
+            System.out.println("Парковка занята");
+            return false;
+        }
+    }
+
+    private boolean placeBigCarOnParking(Car car) {
+        int carSize = car.getSize();
+        if (numberFreeBigParkingPlaces >= carSize) {
+            numberFreeBigParkingPlaces -= carSize;
+            carsOnBigParkingPlaces.add(car);
+            System.out.printf("Машина запаркована на грузовой площадке,"
+                            + " осталось свободными %d машиномест на  легковой площадке и "
+                            + "%d машиномест на грузовой%n",
+                    numberFreeSmallParkingPlaces, numberFreeBigParkingPlaces);
+            return true;
+        } else {
+            return placeCarOnSmallParkingPlaces(car);
+        }
     }
 }
