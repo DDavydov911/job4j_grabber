@@ -3,8 +3,6 @@ package ru.job4j.ood.lsp.parking;
 public class BigCar implements Car {
     private final int size;
 
-    private Parking parking = null;
-
     public BigCar(int size) {
         if (size <= 1) {
             throw new IllegalArgumentException();
