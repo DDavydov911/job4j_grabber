@@ -2,7 +2,7 @@ package ru.job4j.ood.lsp.parking;
 
 public interface Parking {
 
-    void setCar(Car car);
+    boolean placeCarOnParking(Car car);
 
-    boolean checkFreePlaces(Car car);
+    boolean contains(Car car);
 }
