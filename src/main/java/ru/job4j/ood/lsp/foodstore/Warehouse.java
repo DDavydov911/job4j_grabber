@@ -14,11 +14,11 @@ public class Warehouse implements FoodStore {
 
     @Override
     public boolean add(Food food) {
-        if (list.contains(food)) {
-            return false;
-        } else {
+        if (accept(food)) {
             list.add(food);
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -31,5 +31,10 @@ public class Warehouse implements FoodStore {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean accept(Food food) {
+        return getPercentLifeExpired(food) > 75;
     }
 }

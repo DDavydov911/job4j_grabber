@@ -13,11 +13,11 @@ public class Shop implements FoodStore {
 
     @Override
     public boolean add(Food food) {
-        if (list.contains(food)) {
-            return false;
-        } else {
+        if (accept(food)) {
             list.add(food);
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -29,5 +29,11 @@ public class Shop implements FoodStore {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean accept(Food food) {
+        double percent = getPercentLifeExpired(food);
+        return percent > 0 && percent <= 75;
     }
 }

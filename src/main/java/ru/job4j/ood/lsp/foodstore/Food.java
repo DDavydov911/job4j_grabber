@@ -1,7 +1,6 @@
 package ru.job4j.ood.lsp.foodstore;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
 public class Food {
     private String name;
@@ -15,13 +14,6 @@ public class Food {
         this.createDate = createDate;
         this.expiryDate = expiryDate;
         this.price = price;
-    }
-
-    public int getPercentLifeExpired() {
-        double daysForStore = (double) ChronoUnit.DAYS.between(createDate, expiryDate);
-        double daysAfterCreated = (double) ChronoUnit.DAYS.between(createDate, LocalDate.now());
-        int percentLifeExpired = (int) Math.round(daysAfterCreated / daysForStore * 100);
-        return Math.min(percentLifeExpired, 100);
     }
 
     public String getName() {
@@ -49,7 +41,7 @@ public class Food {
     }
 
     public double getPrice() {
-        return price * (100 - discount) / 100;
+        return price;
     }
 
     public void setPrice(double price) {
@@ -62,18 +54,7 @@ public class Food {
 
     public void setDiscount(int discount) {
         this.discount = discount;
-    }
-
-    public static void main(String[] args) {
-        LocalDate cr = LocalDate.of(2021, 12, 1);
-        LocalDate ex = LocalDate.of(2021, 12, 31).plusDays(1);
-        double daysForStore = (double) ChronoUnit.DAYS.between(cr, ex);
-        double daysBeforeExpiry = (double) ChronoUnit.DAYS.between(LocalDate.now(), ex);
-        System.out.println(daysForStore);
-        System.out.println(daysBeforeExpiry);
-        System.out.println(daysBeforeExpiry / daysForStore * 100);
-        Food food = new Food("bread", cr, ex, 87);
-        System.out.println(food.getPercentLifeExpired());
+        price = price * (100 - discount) / 100;
     }
 
     @Override
@@ -83,7 +64,6 @@ public class Food {
                 + ", expiryDate=" + expiryDate
                 + ", price=" + price
                 + ", discount=" + discount
-                + ", expired=" + getPercentLifeExpired() + "%"
                 + '}';
     }
 }
