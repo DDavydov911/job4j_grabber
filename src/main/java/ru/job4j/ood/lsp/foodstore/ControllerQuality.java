@@ -4,20 +4,27 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ControllerQuality {
-    private List<FoodStore> storeList;
+    private List<Store> storeList;
 
-    public ControllerQuality(List<FoodStore> list) {
+    public ControllerQuality(List<Store> list) {
         this.storeList = list;
     }
 
-    public void addFood(Food food) {
-        for (int i = 0; i < storeList.size() - 1; i++) {
-            FoodStore store = storeList.get(i);
-            for (int j = 0; j < store.getList().size(); j++) {
-                if (store.add(food)) {
-                    break;
-                }
+    public boolean addFood(Food food) {
+        for (Store store : storeList) {
+            if (store.add(food)) {
+                return true;
             }
         }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        Food food = new Food("Onion 1kg", LocalDate.of(2020, 8, 15),
+                LocalDate.of(2022, 6, 15), 70);
+        System.out.println(food.getPrice());
+        Store store = new Warehouse();
+        System.out.println(store.add(food));
+        System.out.println(food.getPrice());
     }
 }

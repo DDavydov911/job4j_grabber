@@ -3,7 +3,7 @@ package ru.job4j.ood.lsp.foodstore;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Warehouse implements FoodStore {
+public class Warehouse implements Store {
 
     private List<Food> list = new ArrayList<>();
 
@@ -35,6 +35,7 @@ public class Warehouse implements FoodStore {
 
     @Override
     public boolean accept(Food food) {
-        return getPercentLifeExpired(food) > 75;
+        double percent = getPercentLifeExpired(food);
+        return percent < 25;
     }
 }
