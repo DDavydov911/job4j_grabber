@@ -40,9 +40,8 @@ public class CityParking implements Parking {
     }
 
     private boolean placeBigCar(Car car) {
-        int carSize = car.getSize();
-        if (freeBigPlaces >= carSize) {
-            freeBigPlaces -= carSize;
+        if (freeBigPlaces > 0) {
+            freeBigPlaces -= 1;
             carsOnBigParkingPlaces.add(car);
             System.out.printf("Машина запаркована на грузовой площадке,"
                             + " осталось свободными %d машиномест на  легковой площадке и "
