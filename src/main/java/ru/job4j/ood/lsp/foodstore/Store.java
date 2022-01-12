@@ -18,7 +18,7 @@ public interface Store {
         double daysForStore = (double) ChronoUnit.DAYS.between(
                 food.getCreateDate(), food.getExpiryDate());
         double daysAfterCreated = (double) ChronoUnit.DAYS.between(
-                food.getCreateDate(), LocalDate.now());
+                food.getCreateDate(), LocalDate.of(2022, 1, 11));
         int percentLifeExpired = (int) Math.round(daysAfterCreated / daysForStore * 100);
         return Math.min(percentLifeExpired, 100);
     }

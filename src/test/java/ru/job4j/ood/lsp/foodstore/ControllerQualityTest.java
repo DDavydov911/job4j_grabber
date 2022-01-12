@@ -41,7 +41,7 @@ public class ControllerQualityTest {
     public void whenPutExpired77PercentInShopThenPriceIs42() {
         Store store = new Shop();
         Food food = new Food("Onion 1kg", LocalDate.of(2020, 8, 15),
-                LocalDate.of(2022, 6, 15), 70);
+                LocalDate.of(2022, 6, 15), 70, 40);
         store.add(food);
         double expected = 42d;
         assertEquals(expected, food.getPrice(), 0);
