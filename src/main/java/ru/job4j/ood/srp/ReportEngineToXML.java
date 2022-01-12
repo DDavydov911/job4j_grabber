@@ -1,4 +1,4 @@
-package ru.job4j.design.srp;
+package ru.job4j.ood.srp;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

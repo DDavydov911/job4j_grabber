@@ -1,7 +1,6 @@
-package ru.job4j.design.srp;
+package ru.job4j.ood.srp;
 
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 

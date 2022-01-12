@@ -1,8 +1,9 @@
-package ru.job4j.design.srp;
+package ru.job4j.ood.srp;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
 import org.junit.Test;
+
 import java.util.Calendar;
 
 public class ReportEngineTest {
