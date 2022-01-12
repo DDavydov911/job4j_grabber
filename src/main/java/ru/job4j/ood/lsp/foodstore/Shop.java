@@ -35,7 +35,7 @@ public class Shop implements Store {
     public boolean accept(Food food) {
         double percent = getPercentLifeExpired(food);
         if (percent > 75) {
-            food.setDiscount(40);
+            food.setPrice((100d - food.getDiscount()) / 100 * food.getPrice());
         }
         return percent >= 25 && percent < 100;
     }
