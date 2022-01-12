@@ -28,10 +28,8 @@ public class CityParking implements Parking {
         if (freeSmallPlaces >= carSize) {
             freeSmallPlaces -= carSize;
             carsOnSmallParkingPlaces.add(car);
-            System.out.printf("Машина запаркована на легковой площадке,"
-                    + " осталось свободными %d машиномест на  легковой площадке и "
-                            + "%d машиномест на грузовой%n",
-                    freeSmallPlaces, freeBigPlaces);
+            System.out.print("\nМашина запаркована на легковой площадке, ");
+            printReport();
             return true;
         } else {
             System.out.println("Парковка занята");
@@ -43,13 +41,18 @@ public class CityParking implements Parking {
         if (freeBigPlaces > 0) {
             freeBigPlaces -= 1;
             carsOnBigParkingPlaces.add(car);
-            System.out.printf("Машина запаркована на грузовой площадке,"
-                            + " осталось свободными %d машиномест на  легковой площадке и "
-                            + "%d машиномест на грузовой%n",
-                    freeSmallPlaces, freeBigPlaces);
+            System.out.print("\nМашина запаркована на грузовой площадке, ");
+            printReport();
             return true;
         } else {
             return placeSmallCar(car);
         }
+    }
+
+    @Override
+    public void printReport() {
+        System.out.printf("осталось свободными %d машиномест на  легковой площадке и "
+                        + "%d машиномест на грузовой%n",
+                freeSmallPlaces, freeBigPlaces);
     }
 }
