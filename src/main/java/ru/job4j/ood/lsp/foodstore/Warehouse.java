@@ -12,9 +12,13 @@ public class Warehouse implements Store {
         return list;
     }
 
+    public boolean addToList(Food food) {
+        return list.add(food);
+    }
+
     @Override
     public boolean add(Food food) {
-        if (accept(food)) {
+        if (accept(food) && !list.contains(food)) {
             list.add(food);
             return true;
         } else {

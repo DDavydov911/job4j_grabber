@@ -19,6 +19,20 @@ public class ControllerQuality {
         return false;
     }
 
+    public void resort() {
+        for (Store store : storeList) {
+            List<Food> list = store.getList();
+            if (!list.isEmpty()) {
+                for (int i = list.size() - 1; i >= 0; i--) {
+                    Food food = list.get(i);
+                    if (this.addFood(food)) {
+                        list.remove(food);
+                    }
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Food food = new Food("Onion 1kg", LocalDate.of(2020, 8, 15),
                 LocalDate.of(2022, 6, 15), 70);

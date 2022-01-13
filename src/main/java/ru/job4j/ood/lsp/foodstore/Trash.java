@@ -23,7 +23,7 @@ public class Trash implements Store {
 
     @Override
     public boolean delete(Food food) {
-        if (list.contains(food)) {
+        if (list.contains(food) && !list.contains(food)) {
             list.remove(food);
             return true;
         } else {

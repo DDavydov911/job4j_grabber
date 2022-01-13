@@ -108,4 +108,57 @@ public class ControllerQualityTest {
         assertTrue(cq.addFood(food100percent));
         assertTrue(trash.getList().contains(food100percent));
     }
+
+    @Test
+    public void whenAddFoodInWarehouseThenResortToTrash() {
+        Store warehouse = new Warehouse();
+        Food food = new Food("Milk 2,5%", LocalDate.of(2022, 1, 3),
+                LocalDate.of(2022, 2, 20), 83);
+        warehouse.add(food);
+        food.setExpiryDate(LocalDate.of(2022, 1, 10));
+        Store shop = new Shop();
+        Store trash = new Trash();
+        List<Store> list = new ArrayList<>();
+        list.add(warehouse);
+        list.add(shop);
+        list.add(trash);
+        ControllerQuality cq = new ControllerQuality(list);
+        cq.resort();
+        assertEquals(food, trash.getList().get(0));
+    }
+
+    @Test
+    public void whenAddFoodInTrashThenResortToShop() {
+        Store warehouse = new Warehouse();
+        Store shop = new Shop();
+        Store trash = new Trash();
+        Food food = new Food("Milk 0,5%", LocalDate.of(2021, 12, 15),
+                LocalDate.of(2021, 12, 22), 70);
+        trash.add(food);
+        food.setExpiryDate(LocalDate.of(2022, 2, 10));
+        List<Store> list = new ArrayList<>();
+        list.add(warehouse);
+        list.add(shop);
+        list.add(trash);
+        ControllerQuality cq = new ControllerQuality(list);
+        cq.resort();
+        assertEquals(food, shop.getList().get(0));
+    }
+
+    @Test
+    public void whenAddFoodInShopThenNoResort() {
+        Store warehouse = new Warehouse();
+        Store shop = new Shop();
+        Food food = new Food("Milk 2,5%", LocalDate.of(2022, 1, 3),
+                LocalDate.of(2022, 1, 20), 83);
+        shop.add(food);
+        Store trash = new Trash();
+        List<Store> list = new ArrayList<>();
+        list.add(warehouse);
+        list.add(shop);
+        list.add(trash);
+        ControllerQuality cq = new ControllerQuality(list);
+        cq.resort();
+        assertEquals(food, shop.getList().get(0));
+    }
 }
