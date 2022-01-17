@@ -1,6 +1,7 @@
 package ru.job4j.ood.lsp.foodstore;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ControllerQuality {
@@ -20,6 +21,15 @@ public class ControllerQuality {
     }
 
     public void resort() {
+        List<Food> list = new ArrayList<>();
+        for (Store store : storeList) {
+            list.addAll(store.getList());
+        }
+        for (Food food : list) {
+            addFood(food);
+        }
+    }
+/*
         for (Store store : storeList) {
             List<Food> list = store.getList();
             if (!list.isEmpty()) {
@@ -31,7 +41,7 @@ public class ControllerQuality {
                 }
             }
         }
-    }
+*/
 
     public static void main(String[] args) {
         Food food = new Food("Onion 1kg", LocalDate.of(2020, 8, 15),
