@@ -8,12 +8,14 @@ public class Warehouse implements Store {
     private List<Food> list = new ArrayList<>();
 
     @Override
-    public List<Food> getList() {
-        return list;
+    public List<Food> getListAndClear() {
+        List<Food> transferList = new ArrayList<>(list);
+        list.clear();
+        return transferList;
     }
 
-    public boolean addToList(Food food) {
-        return list.add(food);
+    public List<Food> getList() {
+        return list;
     }
 
     @Override

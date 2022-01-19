@@ -23,7 +23,7 @@ public class ControllerQuality {
     public void resort() {
         List<Food> list = new ArrayList<>();
         for (Store store : storeList) {
-            list.addAll(store.getList());
+            list.addAll(store.getListAndClear());
         }
         for (Food food : list) {
             addFood(food);

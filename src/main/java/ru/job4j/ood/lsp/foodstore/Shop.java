@@ -7,6 +7,13 @@ public class Shop implements Store {
 
     private List<Food> list = new ArrayList<>();
 
+    @Override
+    public List<Food> getListAndClear() {
+        List<Food> transferList = new ArrayList<>(list);
+        list.clear();
+        return transferList;
+    }
+
     public List<Food> getList() {
         return list;
     }
