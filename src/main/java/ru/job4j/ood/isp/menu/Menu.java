@@ -70,5 +70,8 @@ public class Menu {
         System.out.println(menu.findElement("3.1").getName());
         System.out.println();
         System.out.println(menu.getAsString());
+
+        menu.select("2.1.2.1").execute("It's working");
+        menu.select("3").execute("It's working");
     }
 }
