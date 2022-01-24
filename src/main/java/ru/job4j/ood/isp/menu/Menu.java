@@ -5,33 +5,24 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class Menu {
-    private List<Element> list;
-    private Element transit;
-    private StringBuilder sb = new StringBuilder();
+    private List<Element> list = new ArrayList<>();
 
-    public Menu(List<Element> list) {
-        this.list = list;
-    }
-
-    public Element getTransit() {
-        return transit;
-    }
-
-    public void checkAll(List<Element> list, Predicate<Element> predicate) {
+    private Element checkAll(List<Element> list, Predicate<Element> predicate) {
+        Element result = null;
         for (Element element : list) {
             if (predicate.test(element)) {
-                transit = element;
-            } else {
-                checkAll(element.getInners(), predicate);
+                result = element;
             }
+            if (result != null) {
+                break;
+            }
+            result = checkAll(element.getInners(), predicate);
         }
+        return result;
     }
 
     public Element findElement(String name) {
-        checkAll(list, el -> name.equals(el.getName()));
-        Element result = transit;
-        transit = null;
-        return result;
+        return checkAll(list, el -> name.equals(el.getName()));
     }
 
     public boolean add(String patternsName, String childName, Action action) {
@@ -52,39 +43,32 @@ public class Menu {
         return (element != null) ? element.getAction() : null;
     }
 
-    public void fillBuilder(List<Element> list) {
+    private void fillBuilder(List<Element> list, StringBuilder sb) {
         for (Element element : list) {
             sb.append(element.getName()).append("\n");
-            fillBuilder(element.getInners());
+            fillBuilder(element.getInners(), sb);
         }
     }
 
     public String getAsString() {
-        fillBuilder(list);
-        String result = sb.toString();
-        sb = new StringBuilder();
-        return result;
+        StringBuilder sb = new StringBuilder();
+        fillBuilder(list, sb);
+        return sb.toString();
     }
 
     public static void main(String[] args) {
-        List<Element> list = new ArrayList<>();
-        Element el1 = new MultiElem("1", new PrintAction());
-        Element el2 = new MultiElem("2", new CodeAction());
-        list.add(el1);
-        list.add(el2);
-        Element el21 = new MultiElem("2.1", new PrintAction());
-        el2.add(el21);
-        Element el212 = new MultiElem("2.1.2", new PrintAction());
-        el21.add(el212);
-        Element el2121 = new MultiElem("2.1.2.1", new PrintAction());
-        el212.add(el2121);
-        Element el13 = new MultiElem("1.3", new CodeAction());
-        el1.add(el13);
-        Menu menu2 = new Menu(list);
-        Element el3 = new MultiElem("3", new CodeAction());
-        list.add(el3);
-        System.out.println(menu2.add("3", "3.1", new PrintAction()));
-        menu2.checkAll(list, el -> "3.1".equals(el.getName()));
-        System.out.println(menu2.getAsString());
+        Menu menu = new Menu();
+        menu.add(null, "1", new PrintAction());
+        menu.add(null, "2", new CodeAction());
+        menu.add("2", "2.1", new PrintAction());
+        menu.add("2.1", "2.1.2", new PrintAction());
+        menu.add("2.1.2", "2.1.2.1", new PrintAction());
+        menu.add("1", "1.3", new CodeAction());
+        menu.add(null, "3", new CodeAction());
+        menu.add("3", "3.1", new PrintAction());
+        menu.add("3", "3.2", new PrintAction());
+        System.out.println(menu.findElement("3.1").getName());
+        System.out.println();
+        System.out.println(menu.getAsString());
     }
 }
