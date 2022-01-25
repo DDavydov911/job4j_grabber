@@ -7,13 +7,16 @@ import java.util.function.Predicate;
 public class Menu {
     private List<Element> list = new ArrayList<>();
 
+    private final Element ROOT = null;
+
     private Element checkAll(List<Element> list, Predicate<Element> predicate) {
-        Element result = null;
+        Element result = ROOT;
         for (Element element : list) {
+            if (result != null) {
+                break;
+            }
             if (predicate.test(element)) {
                 result = element;
-            }
-            if (result != null) {
                 break;
             }
             result = checkAll(element.getInners(), predicate);
@@ -67,11 +70,13 @@ public class Menu {
         menu.add(null, "3", new CodeAction());
         menu.add("3", "3.1", new PrintAction());
         menu.add("3", "3.2", new PrintAction());
-        System.out.println(menu.findElement("3.1").getName());
+        System.out.println(menu.findElement("1.3").getName());
+        System.out.println(menu.findElement("2.1").getName());
+        System.out.println(menu.findElement("2.1.2").getName());
         System.out.println();
         System.out.println(menu.getAsString());
 
-        menu.select("2.1.2.1").execute("It's working");
+        menu.select("2.1").execute("It's working");
         menu.select("3").execute("It's working");
     }
 }
