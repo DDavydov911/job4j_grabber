@@ -7,10 +7,8 @@ import java.util.function.Predicate;
 public class Menu {
     private List<Element> list = new ArrayList<>();
 
-    private final Element ROOT = null;
-
     private Element checkAll(List<Element> list, Predicate<Element> predicate) {
-        Element result = ROOT;
+        Element result = null;
         for (Element element : list) {
             if (result != null) {
                 break;
@@ -61,13 +59,14 @@ public class Menu {
 
     public static void main(String[] args) {
         Menu menu = new Menu();
-        menu.add(null, "1", new PrintAction());
-        menu.add(null, "2", new CodeAction());
+        final String ROOT = null;
+        menu.add(ROOT, "1", new PrintAction());
+        menu.add(ROOT, "2", new CodeAction());
         menu.add("2", "2.1", new PrintAction());
         menu.add("2.1", "2.1.2", new PrintAction());
         menu.add("2.1.2", "2.1.2.1", new PrintAction());
         menu.add("1", "1.3", new CodeAction());
-        menu.add(null, "3", new CodeAction());
+        menu.add(ROOT, "3", new CodeAction());
         menu.add("3", "3.1", new PrintAction());
         menu.add("3", "3.2", new PrintAction());
         System.out.println(menu.findElement("1.3").getName());
