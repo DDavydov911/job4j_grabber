@@ -2,9 +2,11 @@ package ru.job4j.ood.isp.menu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class Menu {
+    private static final String ROOT = null;
     private List<Element> list = new ArrayList<>();
 
     private Element checkAll(List<Element> list, Predicate<Element> predicate) {
@@ -28,7 +30,7 @@ public class Menu {
 
     public boolean add(String patternsName, String childName, Action action) {
         boolean result = false;
-        if (patternsName == null) {
+        if (Objects.equals(patternsName, ROOT)) {
             result = list.add(new MultiElem(childName, action));
         } else {
             Element element = findElement(patternsName);
